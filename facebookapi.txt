@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+<head>
+	<title>kholisGanteng</title>
+	  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<style>
+
+</style>
+<body>
+	<script>
+		//setup faceboock js sdk default
+		window.fbAsyncInit = function() {
+		    FB.init({
+		      appId      : '449060142115110',
+		      xfbml      : true,
+		      version    : 'v2.9'
+		    });
+		    FB.AppEvents.logPageView();
+		    
+		     FB.getLoginStatus(function(response) {
+		    	if (response.status === 'connected') {
+		    		document.getElementById('status').innerHTML = 'connected.';
+		    		document.getElementById('login').style.visibility = 'hidden';
+		    	} else if (response.status === 'not_authorized') {
+		    		document.getElementById('status').innerHTML = 'gagal masuk facebook.'
+		    	} else {
+		    		document.getElementById('status').innerHTML = 'Facebook';
+		    	}
+		    });
+		};
+		(function(d, s, id){
+		    var js, fjs = d.getElementsByTagName(s)[0];
+		    if (d.getElementById(id)) {return;}
+		    js = d.createElement(s); js.id = id;
+		    js.src = "//connect.facebook.net/en_US/sdk.js";
+		    fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+		
+		function login() {
+			FB.login(function(response) {
+				if (response.status === 'connected') {
+		    		document.getElementById('status').innerHTML = 'connected.';
+		    		document.getElementById('login').style.visibility = 'hidden';
+		    	} else if (response.status === 'not_authorized') {
+		    		document.getElementById('status').innerHTML = 'gagal masuk facebook'
+		    	} else {
+		    		document.getElementById('status').innerHTML = 'Facebook';
+		    	}
+			}, {scope: 'publish_actions'});
+		}
+		function post() {
+			FB.api('/me/feed', 'post', {message: 'sekarang saya belajar facebook API'}, function(response) {
+				document.getElementById('status').innerHTML = response.id;
+			});
+		}
+	</script>
+	<div id="status" class="container"></div>
+	<button type="button" class="btn btn-default" onclick="login()" id="login">Login</button><br><br>
+	<button type="button" class="btn btn-default" onclick="post()">Update Status</button>
+	
+</body>
+</html>
